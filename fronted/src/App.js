@@ -3,7 +3,8 @@ import axios from 'axios'
 import logo from './logo.svg';
 import './App.css';
 import UserList from "./components/users";
-
+import Header from './components/header';
+// import FooterRender from './components/footer';
 
 class App extends React.Component {
   constructor(proops) {
@@ -34,7 +35,12 @@ class App extends React.Component {
           <UserList users={this.state.users} />
         </div>
     )
-  }
+  };
 };
 
+
+
+
+
 export default App;
+
