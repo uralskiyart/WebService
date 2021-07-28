@@ -21,8 +21,8 @@ from users.views import UserViewSet
 from todo.views import ProjectViewSet, TodoViewSet
 
 router = DefaultRouter()
-router.register('users', UserViewSet)
-router.register('projects', ProjectViewSet)
+router.register('users', UserViewSet, basename='users')
+router.register('projects', ProjectViewSet, basename='projects')
 router.register('todo_notes', TodoViewSet)
 
 urlpatterns = [
