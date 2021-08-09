@@ -6,7 +6,7 @@ const TodoItem = ({todo_note, users}) => {
             <td>{todo_note.id}</td>
             <td>{todo_note.project_name}</td>
             <td>{todo_note.is_active}</td>
-            <td>{todo_note.authors.map((userId) => { return users.find((user) => user.id == userId).username}).join(', ')}</td>
+            <td>{todo_note.authors.map((userId) => { return users.find((user) => user.id === userId).username}).join(', ')}</td>
         </tr>
     )
 };

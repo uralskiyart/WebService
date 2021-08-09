@@ -2,11 +2,13 @@ import React from 'react'
 import axios from 'axios'
 import logo from './logo.svg';
 import './App.css';
-import UserList from "./components/Users";
-import ProjectList from "./components/Projects";
-import UserProjectList from "./components/UserProjects";
+import UserList from './components/Users';
+import ProjectList from './components/Projects';
+import UserProjectList from './components/UserProjects';
+import LoginForm from './components/LoginForm';
 import {HashRouter, Route, Link, Switch, Redirect} from 'react-router-dom'
 import TodoList from "./components/Todo";
+import Cookies from 'universal-cookie';
 
 const Page404 = ({location}) => {
     return <div>
@@ -62,6 +64,23 @@ class App extends React.Component {
         )
   };
 
+    get_token(login, password) {
+        axios.post('http://127.0.0.1:8000/api-token-auth/', {
+            'username': login,
+            'password': password
+        })
+            .then(
+                response => {
+                    const cookie = new Cookies()
+                    cookie.set('token', response.data.token)
+                    console.log(cookie.get('token'))
+                    // localStorage.setItem('token', response.data.token)
+                }
+            ).catch(
+                error => console.log(error)
+        )
+    }
+
 
   render() {
     return (
@@ -78,12 +97,16 @@ class App extends React.Component {
                         <li>
                             <Link to='/todo_notes'>Todo notes</Link>
                         </li>
+                         <li>
+                            <Link to='/login'>Login</Link>
+                        </li>
                     </ul>
                 </nav>
                 <Switch>
                     <Route exact path='/' component={() => <UserList users={this.state.users} />} />
                     <Route exact path='/projects' component={() => <ProjectList projects={this.state.projects} users={this.state.users} />} />
-                     <Route exact path='/todo_notes' component={() => <TodoList todo_notes={this.state.todo_notes} users={this.state.users} />} />
+                    <Route exact path='/todo_notes' component={() => <TodoList todo_notes={this.state.todo_notes} users={this.state.users} />} />
+                    <Route exact path='/login' component={() => <LoginForm get_token={(login, password) => this.get_token(login, password)}/>} />
                     <Route path='/user/:id' component={() => <UserProjectList projects={this.state.projects} users={this.state.users}/>} />
                     <Redirect from='/users' to='/' />
                     <Route component={Page404} />

@@ -6,7 +6,7 @@ const ProjectItem = ({project, users}) => {
             <td>{project.id}</td>
             <td>{project.name}</td>
             <td>{project.repository_link}</td>
-            <td>{project.users_on_projects.map((userId) => { return users.find((user) => user.id == userId).username}).join(', ')}</td>
+            <td>{project.users_on_projects.map((userId) => { return users.find((user) => user.id === userId).username}).join(', ')}</td>
         </tr>
     )
 };
