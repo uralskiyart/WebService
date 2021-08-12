@@ -20,6 +20,3 @@ class UserViewSet(ListModelMixin,CreateModelMixin, RetrieveModelMixin, UpdateMod
     serializer_class = UserSerializer
     queryset = User.objects.all()
 
-
-
-
