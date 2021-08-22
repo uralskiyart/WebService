@@ -38,7 +38,8 @@ class App extends React.Component {
 
     get_headers() {
         let header = {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Accept': 'application/json version=2.0'
         }
         const cookie = new Cookies()
         header['Authorization'] = 'Token' + cookie.get('token')

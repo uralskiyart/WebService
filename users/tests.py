@@ -30,7 +30,6 @@ class TestUserViewSet(TestCase):
     #     self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
 
-
     def test_get_detail(self):
         user = User.objects.create(username='test', first_name='dddd', last_name="ffff")
         response = client.get(f'{self.url}/{user.id}')
