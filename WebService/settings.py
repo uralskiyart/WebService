@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_filters',
     'drf_yasg',
+    'graphene_django',
     'users',
     'todo',
 ]
@@ -63,7 +64,9 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'WebService.urls'
 
-
+GRAPHENE = {
+    'SCHEMA': 'WebService.schema.schema'
+}
 
 TEMPLATES = [
     {

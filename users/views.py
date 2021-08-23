@@ -20,15 +20,6 @@ class UserViewSet(ListModelMixin, CreateModelMixin, RetrieveModelMixin, UpdateMo
     # serializer_class = UserSerializer
     queryset = User.objects.all()
 
-    @property
-    def default_response_headers(self):
-        headers = {
-            'Allow': ', '.join(self.allowed_methods),
-        }
-        if len(self.renderer_classes) > 1:
-            headers['Vary'] = 'Accept'
-        print(headers)
-        return headers
 
     def get_serializer_class(self):
         if self.request.version == 'v2':

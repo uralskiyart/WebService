@@ -83,6 +83,23 @@ class App extends React.Component {
              }
         )
 
+        //  axios.get('http://127.0.0.1:8000/api/graphql', {headers})
+        //     .then(
+        //         response => {
+        //             const projects = response.data.results
+        //             this.setState({
+        //                 'projects': projects
+        //             })
+        //         }
+        //     ).catch(
+        //      error => {
+        //          this.setState({
+        //              'projects': []
+        //          })
+        //          console.log(error)
+        //      }
+        // )
+
         axios.get('http://127.0.0.1:8000/api/todo_notes/', {headers})
             .then(
                 response => {
