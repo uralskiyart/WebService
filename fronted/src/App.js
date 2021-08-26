@@ -6,9 +6,11 @@ import UserList from './components/Users';
 import ProjectList from './components/Projects';
 import UserProjectList from './components/UserProjects';
 import LoginForm from './components/LoginForm';
+import ProjectForm from './components/ProjectForm';
 import {HashRouter, Route, Link, Switch, Redirect} from 'react-router-dom'
 import TodoList from "./components/Todo";
 import Cookies from 'universal-cookie';
+
 
 const Page404 = ({location}) => {
     return <div>
@@ -39,7 +41,7 @@ class App extends React.Component {
     get_headers() {
         let header = {
             'Content-Type': 'application/json',
-            'Accept': 'application/json version=2.0'
+            // 'Accept': 'application/json version=2.0'
         }
         const cookie = new Cookies()
         header['Authorization'] = 'Token' + cookie.get('token')
@@ -147,6 +149,49 @@ class App extends React.Component {
         this.get_token_from_storage()
     }
 
+    createProject(name, users_on_project) {
+          if (!name || users_on_project.length==0) {
+            console.log("Empty params:", name, users_on_project)
+            return;
+        }
+
+        const headers = this.get_headers()
+
+        axios.post('http://127.0.0.1:8000/api/project/',
+            {
+                'name': name,
+                'users_on_project': users_on_project
+            },
+            {headers})
+        .then(
+                response => {
+                    this.get_data()
+                }
+            ).catch(
+                 error => {
+                     console.log(error)
+                     console.log(name, users_on_project)
+                 }
+             )
+    }
+
+    deleteProject(id) {
+        const headers = this.get_headers()
+
+        axios.delete('http://127.0.0.1:8000/api/project/${id}/', {headers})
+            .then(
+                response => {
+                    // this.setState({
+                    //     'projects': this.state.projects.filter((book) => book.id !==id)
+                    // })
+                    this.get_data()
+                }
+            ).catch(
+                 error => {
+                     console.log(error)
+                 }
+             )
+    }
 
     render() {
         return (
@@ -161,6 +206,9 @@ class App extends React.Component {
                                 <Link to='/projects'>Projects</Link>
                             </li>
                             <li>
+                                <Link to='/projects/create'>Create Project</Link>
+                            </li>
+                            <li>
                                 <Link to='/todo_notes'>Todo notes</Link>
                             </li>
                             <li>
@@ -170,8 +218,17 @@ class App extends React.Component {
                     </nav>
                     <Switch>
                         <Route exact path='/' component={() => <UserList users={this.state.users}/>}/>
-                        <Route exact path='/projects' component={() => <ProjectList projects={this.state.projects}
-                                                                                    users={this.state.users}/>}/>
+                        <Route exact path='/projects' component={() => <ProjectList
+                            projects={this.state.projects}
+                            users={this.state.users}
+                            deleteProject={(id) => this.deleteProject(id)}
+                        />}/>
+                           <Route exact path='/projects/create' component={() =>
+                               <ProjectForm
+                                   users= {this.state.users}
+                                   createProject={(name, users_on_project) => this.createProject(name, users_on_project)}
+                               />}
+                           />
                         <Route exact path='/todo_notes' component={() => <TodoList todo_notes={this.state.todo_notes}
                                                                                    users={this.state.users}/>}/>
                         <Route exact path='/login' component={() => <LoginForm get_token={(login, password) => this.get_token(login, password)} />} />

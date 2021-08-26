@@ -3,4 +3,5 @@ db.sqlite3
 __pycache__/
 README.md
 fronted/node_modules
+fronted/build
 venv
